@@ -1,0 +1,35 @@
+{
+  "name": "petex",
+  "version": "1.0.0",
+  "description": "Pet Exchange App",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grittylemur/petex.git"
+  },
+  "keywords": [
+    "pet",
+    "exchange",
+    "trade",
+    "friends"
+  ],
+  "author": "Lemur Gritty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grittylemur/petex/issues"
+  },
+  "homepage": "https://github.com/grittylemur/petex#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0",
+    "nodemon": "^1.18.9",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1"
+  }
+}
