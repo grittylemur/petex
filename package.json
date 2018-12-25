@@ -4,7 +4,8 @@
   "description": "Pet Exchange App",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "deploy": "git add . && git commit -am 'Deployment to Heroku' && git push heroku master"
   },
   "repository": {
     "type": "git",
