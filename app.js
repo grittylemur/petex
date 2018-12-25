@@ -3,9 +3,37 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Pet = require("./models/pet");
+require("dotenv").config();
+const chalk = require("chalk");
+
+const { createLogger, format, transports } = require("winston");
+const { combine, timestamp, label, prettyPrint } = format;
+
+// Logger
+const logger = createLogger({
+  format: format.combine(format.splat(), format.simple()),
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: "combined.log" })
+  ]
+});
 
 app.use(express.static(__dirname + "/public"));
-mongoose.connect("mongodb://localhost/petex");
+
+// Local Mongo
+// mongoose.connect("mongodb://localhost/petex");
+
+// MLab
+mongoose
+  .connect(
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
+      process.env.DB_INSTANCE
+    }`
+  )
+  .then(() => logger.log({
+    level: 'info',
+    message: chalk.green("Connected to MongoDB")
+  }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
