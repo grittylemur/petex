@@ -48,9 +48,30 @@ app.get("/", function(req, res) {
 });
 
 app.get("/pets", function(req, res) {
-  Pet.find({}, function(err, pets) {
-    res.render("index", { pets, err, currentUser });
-  });
+  const pageSize = 6
+  // Read page parameter from the querystring
+  let {page} = req.query
+  // If page then pass that to pet.find()
+  if(!page) {
+    page = 1
+  }
+
+  Pet.count({}, function (err, records) {
+    if (err) {console.log('Error')}
+
+    let pagination = {
+      records,
+      pageSize,
+      page
+    }
+  
+    Pet.find({}, function(err, pets) {
+      res.render("index", { pets, err, currentUser, pagination });
+    })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+  })
+  
 });
 
 app.get("/pets/new", function(req, res) {
