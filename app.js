@@ -41,24 +41,25 @@ app.use(express.static(__dirname + "/public"));
 
 const PORT = process.env.PORT || 5000;
 
+const currentUser = null;
+
 app.get("/", function(req, res) {
-  res.render("landing");
+  res.render("landing", { currentUser });
 });
 
 app.get("/pets", function(req, res) {
   Pet.find({}, function(err, pets) {
-    res.render("index", { pets, err });
+    res.render("index", { pets, err, currentUser });
   });
 });
 
 app.get("/pets/new", function(req, res) {
-  res.render("new");
+  res.render("new", {currentUser});
 });
 
 app.post("/pets", function(req, res) {
-  const name = req.body.name;
-  const age = req.body.age;
-  const newPet = { name, age };
+  const { name, age, image } = req.body;
+  const newPet = { name, age, image };
   Pet.create(newPet, function(err, newlyCreated) {
     if (err) {
       console.log(err);

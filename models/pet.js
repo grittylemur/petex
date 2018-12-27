@@ -3,7 +3,8 @@ const passportLocalMongoose = require("passport-local-mongoose")
 
 const PetSchema = new mongoose.Schema({
   name: String,
-  age: String
+  age: String,
+  image: String
 });
 
 PetSchema.plugin(passportLocalMongoose)

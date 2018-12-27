@@ -1,3 +1,7 @@
+<% include ./partials/header %>
+<% include ./partials/hero %>
+<div class="album py-5 bg-light"><div class="container">   
+
 <h1>Welcome to PetEx HQ!</h1>
 <h3><i>Because every pet deserves a loving home</i></h3>
 <% if(err) { %>
@@ -8,29 +12,21 @@
         <%= err.description %>
     </h4>
 <% } else { %>
-
+    <div class="row">
+            
     <% if(pets.length > 0) { %>
-        <h1>List of pets:</h1>
-        <table style="width:60%">
-            <tr>
-              <th>Name</th>
-              <th>Age</th>
-            </tr>
-        <% pets.forEach(function(pet) {
-            console.log(pet.name) %>
-            <tr>
-                <td><%= pet.name %></td>
-                <td><%= pet.age %></td>
-                <td>
-                    <a href="/pets/update/<%= pet.id %>">Update</a>
-                    <a href="/pets/delete/<%= pet.id %>">Delete</a>
-                </td>
-              </tr>
+        <% pets.forEach(function(pet) { %>
+            <%- include('./partials/animalcard', {pet}) %>
          <% }) %>
-        </table>
        <% } else {
             console.log("Sorry, looks like there are no pets availible for adoption at the moment.")
         }
  } %>
 
- <a href="/pets/new">Create Pet</a>
+    </div>
+
+
+
+ <a href="/pets/new">Add a Pet</a>
+
+ <% include ./partials/footer %>
