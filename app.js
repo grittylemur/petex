@@ -44,7 +44,7 @@ const PORT = process.env.PORT || 5000;
 const currentUser = null;
 
 app.get("/", function(req, res) {
-  // res.render("landing", { currentUser });
+  // res.render("landing", { currentUser }); 
   res.redirect("/pets");
 });
 
