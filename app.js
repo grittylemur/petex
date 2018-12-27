@@ -70,6 +70,6 @@ app.post("/pets", function(req, res) {
 });
 
 app.listen(PORT, process.env.IP, function() {
-  console.log(`Petex server has started at http://localhost:${PORT}`);
+  console.log(`Node server has started at http://localhost:${PORT}`);
   console.log("App is listening...");
 });
