@@ -11,10 +11,8 @@ const { combine, timestamp, label, prettyPrint } = format;
 
 // Logger
 const logger = createLogger({
-  format: format.combine(format.splat(), format.simple()),
-  transports: [
-    new transports.Console(),
-    new transports.File({ filename: "combined.log" })
+  format: format.combine(format.splat(), format.simple()), transports: [
+    new transports.Console(),   new transports.File({ filename: "combined.log" })
   ]
 });
 
@@ -31,8 +29,7 @@ mongoose
     }`
   )
   .then(() => logger.log({
-    level: 'info',
-    message: chalk.green("Connected to MongoDB")
+    level: 'info',   message: chalk.green("Connected to MongoDB")
   }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +46,12 @@ app.get("/", function(req, res) {
 });
 
 app.get("/pets", function(req, res) {
+  let searchOptions = {}
+
+  if(req.query.search) {
+    searchOptions.name = req.query.search
+  }
+  
   const pageSize = 6
   // Read page parameter from the querystring
   let {page} = req.query
@@ -57,7 +60,7 @@ app.get("/pets", function(req, res) {
     page = 1
   }
 
-  Pet.count({}, function (err, records) {
+  Pet.count(searchOptions, function (err, records) {
     if (err) {console.log('Error')}
 
     let pagination = {
@@ -66,7 +69,7 @@ app.get("/pets", function(req, res) {
       page
     }
   
-    Pet.find({}, function(err, pets) {
+    Pet.find(searchOptions, function(err, pets) {
       res.render("index", { pets, err, currentUser, pagination });
     })
     .skip((page - 1) * pageSize)
@@ -80,8 +83,8 @@ app.get("/pets/new", function(req, res) {
 });
 
 app.post("/pets", function(req, res) {
-  const { name, age, image } = req.body;
-  const newPet = { name, age, image };
+  const { kind, breed, description, tags, sex, city, state, size, name, age, image } = req.body;
+  const newPet = { kind, breed, description, tags, sex, city, state, size, name, age, image };
   Pet.create(newPet, function(err, newlyCreated) {
     if (err) {
       console.log(err);
