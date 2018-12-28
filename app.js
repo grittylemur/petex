@@ -49,7 +49,8 @@ app.get("/pets", function(req, res) {
   let searchOptions = {}
 
   if(req.query.search) {
-    searchOptions.name = req.query.search
+    searchOptions = 
+    { $text: { $search: req.query.search } }
   }
   
   const pageSize = 6
