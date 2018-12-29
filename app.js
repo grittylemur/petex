@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const passport = require("passport")
+const LocalStrategy = require("passport-local")
+const passportLocalMongoose = require("passport-local-mongoose")
 const Pet = require("./models/pet");
+const User = require("./models/user")
 require("dotenv").config();
 const chalk = require("chalk");
 
@@ -35,6 +39,21 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(
+  require("express-session")({
+    secret: "CATZZARECUTE",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 
@@ -94,6 +113,33 @@ app.post("/pets", function(req, res) {
     }
   });
 });
+
+// USER ROUTES
+
+app.get("/users/new", function(req, res){
+  res.render("user/new", {currentUser})
+})
+
+app.post("/users", function(req, res){
+  console.log(req.body)
+  const {username, password, email, fName, lName, city, state, userType} = req.body
+  User.register(
+    new User({username, email, fName, lName, city, state, userType}),
+    password,
+    function(err, user) {
+      if(err) {
+        console.log(err)
+      }
+
+      passport.authenticate("local")(req, res, function() {
+        logger.log({
+          level: 'info',   message: chalk.green("User created successfully")
+        })
+        res.redirect("/pets")
+      })
+    }
+  )
+})
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);
