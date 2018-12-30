@@ -1,4 +1,5 @@
 const express = require("express");
+var session = require("express-session");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -39,13 +40,25 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(session({ secret: "KHDFYG65GRAWRGARE" }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 app.use(
   require("express-session")({
@@ -57,7 +70,7 @@ app.use(
 
 const PORT = process.env.PORT || 5000;
 
-const currentUser = null;
+let currentUser = null;
 
 app.get("/", function(req, res) {
   // res.render("landing", { currentUser }); 
@@ -65,6 +78,11 @@ app.get("/", function(req, res) {
 });
 
 app.get("/pets", function(req, res) {
+  logger.info(req.user)
+  if(req.user) {
+    currentUser = req.user
+  } 
+
   let searchOptions = {}
 
   if(req.query.search) {
@@ -98,7 +116,7 @@ app.get("/pets", function(req, res) {
   
 });
 
-app.get("/pets/new", function(req, res) {
+app.get("/pets/new", isLoggedIn, function(req, res) {
   res.render("new", {currentUser});
 });
 
@@ -140,6 +158,30 @@ app.post("/users", function(req, res){
     }
   )
 })
+
+app.get("/signin", function(req, res){
+  res.render("user/signin", {currentUser})
+})
+
+app.post("/signin",
+  passport.authenticate("local"),
+  function(req, res) {
+    res.redirect("/pets?user=" + req.user.username)
+  }
+)
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next()
+  }
+  res.redirect("/signin")
+}
+
+app.get('/signout', function(req, res){
+  currentUser = null;
+  req.logout();
+  res.redirect('/pets');
+});
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);

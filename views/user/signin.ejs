@@ -1,0 +1,62 @@
+<% include ../partials/header %>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Sign In to Your Account</h1>
+    <p class="lead">Use the form below to sign in to your account.</p>
+  </div>
+
+
+<div class="container ">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 style="text-align: center"></h2>
+        <form action="/signin" method="POST">
+
+          <h4>Login Information</h4>
+          <div class="row">
+            <div class="col-md-12 mb-12">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Eg. johndoe">
+              <div class="invalid-feedback">
+                Valid username is required.
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12 mb-12">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+              <div class="invalid-feedback">
+                Valid password is required.
+              </div>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-12">
+                <br>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="checkboxSuccess" value="option1">
+                        Remember me
+                    </label>
+                </div>
+            </div>
+          </div>
+          <br>
+          <br>
+
+          
+          <button type="Create" class="btn btn-primary btn-lg btn-block">
+            Submit
+          </button>
+          <br>
+          <br>
+          <a href="/users/new">Not registered? Click here to sign up.</a>
+        </form>
+    </div>
+    <a style="margin: 10px auto;" href="/pets">Go Back</a>
+  </div>
+</div>
+
+
+<% include ../partials/footer %>
