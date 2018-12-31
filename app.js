@@ -3,7 +3,8 @@ var session = require("express-session");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const passport = require("passport")
+const passport = require("passport");
+const moment = require("moment");
 const LocalStrategy = require("passport-local")
 const passportLocalMongoose = require("passport-local-mongoose")
 const Pet = require("./models/pet");
@@ -14,12 +15,18 @@ const chalk = require("chalk");
 const { createLogger, format, transports } = require("winston");
 const { combine, timestamp, label, prettyPrint } = format;
 
+let currentUser = null;
+
 // Logger
 const logger = createLogger({
   format: format.combine(format.splat(), format.simple()), transports: [
     new transports.Console(),   new transports.File({ filename: "combined.log" })
   ]
 });
+
+// App locals
+app.locals.moment = moment
+app.locals.currentUser = currentUser
 
 app.use(express.static(__dirname + "/public"));
 
@@ -70,7 +77,7 @@ app.use(
 
 const PORT = process.env.PORT || 5000;
 
-let currentUser = null;
+
 
 app.get("/", function(req, res) {
   // res.render("landing", { currentUser }); 
@@ -83,7 +90,9 @@ app.get("/pets", function(req, res) {
     currentUser = req.user
   } 
 
-  let searchOptions = {}
+  let searchOptions = {
+
+  }
 
   if(req.query.search) {
     searchOptions = 
@@ -112,6 +121,7 @@ app.get("/pets", function(req, res) {
     })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
+    .sort({createdAt: 'desc'})
   })
   
 });
@@ -122,7 +132,7 @@ app.get("/pets/new", isLoggedIn, function(req, res) {
 
 app.post("/pets", function(req, res) {
   const { kind, breed, description, tags, sex, city, state, size, name, age, image } = req.body;
-  const newPet = { kind, breed, description, tags, sex, city, state, size, name, age, image };
+  const newPet = { kind, breed, description, tags, sex, city, state, size, name, age, image, createdAt: new Date() };
   Pet.create(newPet, function(err, newlyCreated) {
     if (err) {
       console.log(err);
@@ -131,6 +141,13 @@ app.post("/pets", function(req, res) {
     }
   });
 });
+
+app.get("/pets/:id", function(req, res){
+  const id = req.params.id
+  Pet.findOne({_id : id}, function(err, pet){
+    res.render("show", {pet})
+  })
+})
 
 // USER ROUTES
 

@@ -12,7 +12,10 @@ const PetSchema = new mongoose.Schema({
   size: String,
   name: String,
   age: String,
-  image: String
+  image: String,
+  createdAt: {
+    type: Date
+  }
 });
 
 PetSchema.plugin(passportLocalMongoose)
