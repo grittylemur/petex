@@ -2,6 +2,7 @@
 
 <div class="col-md-4">
 <div class="card mb-4 box-shadow">
+  <a href="/pets/<%=pet.id%>">
     <% if(pet.image) { %>
         <img class="card-img-top" 
         src="<%= pet.image %>" 
@@ -11,8 +12,9 @@
         src="/images/pending.jpg" 
         alt="<%= pet.name %>" >
         <% } %>
+    </a>
         <div class="card-body">
-            <h5 class="card-title"><%=pet.name%></h5>
+            <a href="/pets/<%=pet.id%>"><h5 class="card-title"><%=pet.name%></h5></a>
             <h6 class="card-title">Age: <%=pet.age%></h6>
           <p class="card-text"><%= pet.description ? pet.description.substring(0, 100) + "..." : "No description availible." %></p>
           <% 

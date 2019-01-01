@@ -1,61 +1,115 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
+
 <% include ./partials/header %>
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Pet Details</h1>
-    <p class="lead">Use the form below to sign in to your account.</p>
   </div>
 
 
-<div class="container ">
-  <div class="row">
-    <div class="col-md-12">
-      <h2 style="text-align: center"></h2>
-        <form action="/signin" method="POST">
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h1><%= pet.name %></h1>
+            <img src="<%= pet.image ? pet.image : '/images/pending.jpg' %>" alt="pet image" style="width:100%;" >
+        </div>
 
-          <h4>Name: <%= pet.name %></h4>
-          <div class="row">
-            <div class="col-md-12 mb-12">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="Eg. johndoe">
-              <div class="invalid-feedback">
-                Valid username is required.
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-md-12 mb-12">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-              <div class="invalid-feedback">
-                Valid password is required.
-              </div>
-            </div>            
-          </div>
-          <div class="row">
-            <div class="col-md-12 mb-12">
-                <br>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="checkboxSuccess" value="option1">
-                        Remember me
-                    </label>
+        <div class="col-md-3">
+                <h1>Details</h1>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0">Kind</h6>
                 </div>
-            </div>
-          </div>
-          <br>
-          <br>
-
-          
-          <button type="Create" class="btn btn-primary btn-lg btn-block">
-            Submit
-          </button>
-          <br>
-          <br>
-          <a href="/users/new">Not registered? Click here to sign up.</a>
-        </form>
+                <span class="text-muted"><%= pet.kind %></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0">Breed</h6>
+                </div>
+                <span class="text-muted"><%= pet.breed %></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0">Sex</h6>
+                </div>
+                <span class="text-muted"><%= pet.sex %></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <span>Age</span>
+                <span class="text-muted"><%= pet.age %> years old</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <span>Size</span>
+                <span class="text-muted"><%= pet.size %></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <span>Location</span>
+                <span class="text-muted"><%= pet.city ? pet.city + ", " + pet.state : pet.state%></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <span>Date Added</span>
+                <span class="text-muted"><%= pet.createdAt ? moment(pet.createdAt).fromNow() : "No time availible." %></span>                    
+                </li>
+            </ul>
+            <h4>Actions</h4>
+            <ul class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">Contact Owner</a>
+                    <a href="#" class="list-group-item list-group-item-action">Save for Later</a>
+                    <li class="list-group-item d-flex  lh-condensed">
+                        <span style="margin-right:10px;">Share on</span>
+                        <a style=" margin-right: 10px;" href="#"><i style="font-size: 30px;" class="fab fa-facebook"></i>   </a>
+                        <a style="margin-right: 10px;" href="#"><i style="font-size: 30px;" class="fab fa-twitter"></i>   </a>
+                        <a  href="#"><i style="font-size: 30px;"class="fab fa-instagram"></i>   </a>                  
+                    </li>
+                    </a>
+            </ul>
+    
+        </div>
     </div>
-    <a style="margin: 10px auto;" href="/pets">Go Back</a>
-  </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-9">
+            <% 
+            let tagArray = pet.tags ? pet.tags.split(",") : []
+            tagArray.forEach(tag => { %>
+                <a href="/pets?search=<%=tag.trim()%>" class="badge badge-pill badge-info"><%=tag.trim()%></a>
+            <% })
+            %>  
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12">
+            <h1>Description</h1>
+            <p><%= pet.description %></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Comments</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Post Comment</h1>
+            <textarea class="form-control rounded-0" id="comment" name="comment" rows="3"></textarea>
+            <button class="btn btn-primary" style="margin-top:10px;">Post Comment</button>
+        </div>
+    </div>
+
+
+
+
+
 </div>
 
 
