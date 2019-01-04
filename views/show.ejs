@@ -9,6 +9,7 @@
 
 
 <div class="container">
+
     <div class="row">
         <div class="col-md-9">
             <h1><%= pet.name %></h1>
@@ -87,28 +88,42 @@
         </div>
     </div>
 
+    <a id="comments"/>
     <div class="row">
         <div class="col-md-12">
             <h1>Comments</h1>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque corporis expedita, harum minus aperiam eligendi quis molestiae fuga culpa dolore possimus tempore nostrum sint rem soluta. Architecto, nostrum ipsam? Expedita.</p>
+                <% if(comments) {
+                    comments.forEach(comment => { %>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <strong><a href="/user/<%= comment.author %>/profile"><%= comment.author %></a></strong>
+                            </div>
+                            <div class="col-md-8"></div>
+                            <div class="col-md-2">
+                                <i><%= moment(comment.createdAt).fromNow() %></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><%= comment.text %></p>
+                            </div>
+                        </div>
+                        
+               <%     })
+                } %>
+
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <h1>Post Comment</h1>
-            <textarea class="form-control rounded-0" id="comment" name="comment" rows="3"></textarea>
-            <button class="btn btn-primary" style="margin-top:10px;">Post Comment</button>
+            <form action="/pets/<%= pet.id %>/comments" method="POST">
+                <textarea class="form-control rounded-0" id="text" name="text" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary" style="margin-top:10px;">Post Comment</button>
+            </form>
         </div>
     </div>
-
-
-
-
 
 </div>
 

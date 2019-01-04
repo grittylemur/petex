@@ -13,9 +13,13 @@ const PetSchema = new mongoose.Schema({
   name: String,
   age: String,
   image: String,
-  createdAt: {
-    type: Date
-  }
+  createdAt: Date,
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment"
+    }
+  ]
 });
 
 PetSchema.plugin(passportLocalMongoose)

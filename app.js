@@ -9,6 +9,7 @@ const LocalStrategy = require("passport-local")
 const passportLocalMongoose = require("passport-local-mongoose")
 const Pet = require("./models/pet");
 const User = require("./models/user")
+const Comment = require("./models/comment")
 require("dotenv").config();
 const chalk = require("chalk");
 
@@ -145,7 +146,12 @@ app.post("/pets", function(req, res) {
 app.get("/pets/:id", function(req, res){
   const id = req.params.id
   Pet.findOne({_id : id}, function(err, pet){
-    res.render("show", {pet})
+    Comment.find({
+      "_id": { $in: pet.comments }
+    }, function(err, comments){
+      res.render("show", {pet, comments})
+    })
+    .sort({createdAt: 'desc'})
   })
 })
 
@@ -199,6 +205,29 @@ app.get('/signout', function(req, res){
   req.logout();
   res.redirect('/pets');
 });
+
+// COMMENTS ROUTES
+app.post("/pets/:id/comments", isLoggedIn, function(req, res){
+  Pet.findById(req.params.id, function(err, pet){
+    if(err) {
+      console.log(err)
+      res.redirect("/pets/" + req.params.id)
+    } else {
+      const text = req.body.text
+      const author = currentUser.username
+      Comment.create({
+        text,
+        author,
+        createdAt: new Date()
+      }, function(err, comment){
+        pet.comments.push(comment)
+        pet.save()
+        console.log("comment has been saved")
+        res.redirect("/pets/" + pet._id + "#comments")
+      })
+    }
+  })
+})
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);
