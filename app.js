@@ -8,6 +8,7 @@ const moment = require("moment");
 const User = require("./models/user");
 const petRoutes = require("./routes/pet");
 const userRoutes = require("./routes/user");
+const messageRoutes = require("./routes/message")
 const logger = require("./utils/logger");
 require("dotenv").config();
 const chalk = require("chalk");
@@ -79,6 +80,7 @@ app.get("/", function(req, res) {
 // Routes
 app.use("/pets", petRoutes);
 app.use("/users", userRoutes(passport, app));
+app.use("/messages", messageRoutes)
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);
