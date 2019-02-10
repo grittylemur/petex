@@ -1,9 +1,17 @@
 <% include ../partials/header %>
-
-<div class="container">   
+<br>
+<br>
+<div class="container">  
+    <div class="row">
+        <div class="col-md-11">
+            <h1>Messages</h1>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-primary" href="/messages/new">New Message</a>
+        </div>
+    </div> 
     <div class="row">
         <div class="col-md-12">
-            <h1>Messages</h1>
             <div class="table-responsive-lg">
                 <table class="table table-striped table-hover refresh-container pull-down">
                     <thead class="hidden-xs">
@@ -17,13 +25,17 @@
                     </thead>
                     
                     <tbody>
-                        <tr>
-                            <td><a title="Status" href="#"><i class="fa fa-star"></i></a></td>
-                            <td><span>{{item.dtSent}}</span></td>
-                            <td><span>{{item.from}}</span></td>
-                            <td width="75%"><span>{{item.subject}}</span></td>
-                            <td><a title="Delete item" href="#"><i class="fa fa-trash"></i></a> <a title="Mark item" href="javascript:;"><i class="fa fa-flag"></i></a></td>
-                        </tr>
+                        <% if (messages.length > 0 ) {
+                            messages.forEach(message => { %>
+                                <tr>
+                                    <td><a title="Status" href="#"><i class="fa fa-star"></i></a></td>
+                                    <td><span><%= message.dateSent %></span></td>
+                                    <td><span><%= message.sender %></span></td>
+                                    <td width="75%"><span><%= message.subject %></span></td>
+                                    <td><a title="Delete item" href="#"><i class="fa fa-trash"></i></a> <a title="Mark item" href="javascript:;"><i class="fa fa-flag"></i></a></td>
+                                </tr>
+                        <% })} %>
+                        
                     </tbody>
                 </table>
             </div>

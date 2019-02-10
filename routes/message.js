@@ -1,8 +1,45 @@
 const express = require("express")
+const Message = require("../models/message")
+const User = require("../models/user")
 let router = express.Router()
 
-router.get("/", function(req, res){
-    res.render("messages/index")
-})
+const messageRouter = (app) => {
+    router.get("/", function(req, res){
+        Message.find({receiver: app.locals.currentUser.id} ,function(err, messages) {
+            res.render("messages/index", {messages})
+        })
 
-module.exports = router
+    })
+
+    router.get("/new", function(req, res){
+        res.render("messages/new")
+    })
+
+    router.post("/", function(req, res){
+        const {username, subject, body} = req.body
+        User.findOne({username}, function(err, user){
+            if (user) {
+                const userId = user._id
+                console.log(user)
+                const newMessage = {
+                    sender: app.locals.currentUser.id,
+                    receiver: userId,
+                    subject,
+                    body
+                }
+                Message.create(newMessage, function(err, newlyCreated){
+                    if(err) {
+                        console.log(err)
+                    } else {
+                        res.redirect("/messages")
+                    }
+                })
+            }
+        })
+    })
+    return router
+}
+
+
+
+module.exports = messageRouter

@@ -80,7 +80,7 @@ app.get("/", function(req, res) {
 // Routes
 app.use("/pets", petRoutes);
 app.use("/users", userRoutes(passport, app));
-app.use("/messages", messageRoutes)
+app.use("/messages", messageRoutes(app))
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);

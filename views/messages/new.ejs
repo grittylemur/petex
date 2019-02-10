@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">New Message</h1>
+  </div>
+<div class="container">   
+
+  <div class="row">
+    <div class="col-md-12 order-md-1">
+      <h2 style="text-align: center"></h2>
+        <form action="/messages" method="POST">
+        
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <label for="name">To:</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Eg. johndoe555">
+              <div class="invalid-feedback">
+                Valid username is required.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 mb-4">
+                <label for="name">Subject:</label>
+                <input type="text" class="form-control" id="subject" name="subject" placeholder="Eg. Your cat Sissy">
+                <div class="invalid-feedback">
+                Valid subject is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <label for="description">Body</label>
+                <textarea class="form-control rounded-0" id="body" name="body" rows="6"></textarea>
+            </div>
+        </div>
+            
+          <button type="Create" class="btn btn-primary">
+            Send
+          </button>
+          <a href="/messages" class="btn btn-danger">Cancel</a>
+        </form>
+    </div>
+  </div>
+</div>
+
+<% include ../partials/footer %>
