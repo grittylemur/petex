@@ -1,5 +1,6 @@
 const express = require("express");
 var router = express.Router();
+const chalk = require("chalk")
 const logger = require("../utils/logger");
 const isLoggedIn = require("../auth/isLoggedIn");
 const User = require("../models/user");
@@ -50,6 +51,7 @@ module.exports = function(passport, app) {
   router.post("/signin", passport.authenticate("local"), function(req, res) {
     currentUser = req.user;
     app.locals.currentUser = currentUser;
+    app.locals.unreadMessages = currentUser.unreadMessages;
     res.redirect("/pets?user=" + req.user.username);
   });
 
@@ -57,7 +59,7 @@ module.exports = function(passport, app) {
     app.locals.currentUser = null;
     req.logout();
     res.redirect("/");
-  });
+  })
   
   return router;
 };

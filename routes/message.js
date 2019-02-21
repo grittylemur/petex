@@ -31,7 +31,16 @@ const messageRouter = (app) => {
                     if(err) {
                         console.log(err)
                     } else {
-                        res.redirect("/messages")
+                        user.messages.push(newlyCreated)
+                        user.unreadMessages += 1
+                        user.save(function(err){
+                            if(err) {
+                                console.log(err)
+                            } else {
+                                app.locals.unreadMessages = user.unreadMessages
+                                res.redirect("/messages")
+                            }
+                        })
                     }
                 })
             }
