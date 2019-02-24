@@ -23,7 +23,9 @@ const messageRouter = (app) => {
                 console.log(user)
                 const newMessage = {
                     sender: app.locals.currentUser.id,
+                    senderUsername: app.locals.currentUser.username,
                     receiver: userId,
+                    receiverUsername: username,
                     subject,
                     body
                 }
@@ -46,6 +48,61 @@ const messageRouter = (app) => {
             }
         })
     })
+
+    router.get("/:id", function(req, res){
+        const id = req.params.id
+        if(id) {
+            Message.findById(id, function(err, message){
+                if(err) {
+                    console.log(err)
+                } else {
+                    console.log(message)
+                    res.render("messages/message", {message})
+                }
+            })
+        }
+    })
+
+    router.post("/reply", function(req, res){
+        console.log("Processing reply message...", req.body)
+        const {subject, body, receiverUsername, receiverId} = req.body
+        const senderUsername = currentUser.username
+        // Find receiver user from Mongo
+        User.findById(receiverId, function(err, user){
+            if(err) {
+                console.log(err)
+            } else {
+                const newMessage = {
+                    subject,
+                    body,
+                    receiverUsername,
+                    senderUsername,
+                    receiver: receiverId,
+                    sender: currentUser.id   
+                }
+
+                Message.create(newMessage, function(err, message){
+                    if(err) {
+                        console.log(err)
+                    } else {
+                        user.messages.push(message)
+                        user.unreadMessages += 1
+                        user.save(function(err, user){
+                            if(err) {
+                                console.log(err)
+                            } else {
+                                app.locals.unreadMessages = user.unreadMessages
+                                res.redirect("/messages")
+                            }
+                        })
+                    }
+                }) 
+        }
+        
+    })
+        
+    })
+
     return router
 }
 

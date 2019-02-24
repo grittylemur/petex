@@ -1,0 +1,69 @@
+<% include ../partials/header %>
+<br>
+<br>
+
+<div class="container">   
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Message</h1>
+        </div>
+      <div class="col-md-12 order-md-1">
+        <h2 style="text-align: center"></h2>
+          <form action="/messages/reply" method="POST">
+          
+            <div class="row">
+              <div class="col-md-4 mb-4">
+                <label for="name">From:</label>
+                <input type="text" class="form-control" id="receiverUsername" 
+                    name="receiverUsername" readonly value="<%= message.senderUsername %>">
+                <input type="hidden" name="receiverId" value="<%= message.sender %>">
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                  <label for="name">Subject:</label>
+                  <input type="text" class="form-control" id="subject" 
+                    name="subject" readonly value="<%= message.subject %>">
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                  <label for="name">Date:</label>
+                  <input type="text" class="form-control" id="dateSent" 
+                    name="dateSent" readonly value="<%= moment(message.dateSent).format('MMMM Do YYYY, h:mm:ss a') %>">
+              </div>
+            </div>
+  
+          <div class="row">
+              <div class="col-md-12 mb-4">
+                  <label for="description">Body</label>
+                  <textarea readonly class="form-control rounded-0" id="originalBody" name="originalBody" rows="6">
+<%= message.body %>
+                  </textarea>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-4">
+                <label for="description">Reply</label>
+                <textarea class="form-control rounded-0" id="body" name="body" rows="6">
+           
+
+
+--------------------------------                    
+<%= message.body %>
+                </textarea>
+            </div>
+        </div>
+              
+            <button type="Create" class="btn btn-primary">
+              Send
+            </button>
+            <a href="/messages" class="btn btn-warning">Cancel</a>
+            <a href="/messages/<%= message.id %>/delete" class="btn btn-danger">Delete</a>
+          </form>
+      </div>
+    </div>
+  </div>
+
+<% include ../partials/footer %>

@@ -17,7 +17,7 @@
                     <thead class="hidden-xs">
                         <tr>
                             <td><a href="javascript:;"><strong>Status</strong></a></td>
-                            <td><a href="javascript:;"><strong>Date</strong></a></td>
+                            <td width="15%"><a href="javascript:;"><strong>Date</strong></a></td>
                             <td><a href="javascript:;"><strong>From</strong></a></td>
                             <td><a href="javascript:;"><strong>Subject</strong></a></td>
                             <td><a href="javascript:;"><strong>Actions</strong></a></td>
@@ -29,9 +29,9 @@
                             messages.forEach(message => { %>
                                 <tr>
                                     <td><a title="Status" href="#"><i class="fa fa-star"></i></a></td>
-                                    <td><span><%= message.dateSent %></span></td>
-                                    <td><span><%= message.sender %></span></td>
-                                    <td width="75%"><span><%= message.subject %></span></td>
+                                    <td><a href="/messages/<%= message.id%>"><span><%= moment(message.dateSent, "YYYYMMDD").fromNow()%></span></a></td>
+                                    <td><a href="/messages/<%= message.id%>"><span><%= message.senderUsername %></span></a></td>
+                                    <td width="75%"><a href="/messages/<%= message.id%>"><span><%= message.subject %></span></a></td>
                                     <td><a title="Delete item" href="#"><i class="fa fa-trash"></i></a> <a title="Mark item" href="javascript:;"><i class="fa fa-flag"></i></a></td>
                                 </tr>
                         <% })} %>
