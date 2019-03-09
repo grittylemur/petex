@@ -2,11 +2,23 @@ const express = require("express");
 var router = express.Router();
 const Pet = require("../models/pet")
 const Comment = require("../models/comment")
+const Message = require("../models/message")
 const logger = require("../utils/logger")
 const isLoggedIn = require("../auth/isLoggedIn")
 
+const petsRouter = (app) => {
 router.get("/", function(req, res) {
   logger.info(req.user);
+  
+
+  if(app.locals.currentUser) {
+    const userId = app.locals.currentUser.id
+    Message.find({receiver: userId, status: 'unread'}, function(err, messages){
+      if(err) console.log(err)
+      app.locals.unreadMessages = messages.length
+    })
+
+  }
 
   let searchOptions = {};
 
@@ -95,4 +107,7 @@ router.post("/:id/comments", isLoggedIn, function(req, res) {
   });
 });
 
-module.exports = router
+return router
+}
+
+module.exports = petsRouter

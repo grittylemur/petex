@@ -6,7 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const moment = require("moment");
 const User = require("./models/user");
-const petRoutes = require("./routes/pet");
+const petsRoutes = require("./routes/pet");
 const userRoutes = require("./routes/user");
 const messageRoutes = require("./routes/message")
 const logger = require("./utils/logger");
@@ -78,7 +78,7 @@ app.get("/", function(req, res) {
 });
 
 // Routes
-app.use("/pets", petRoutes);
+app.use("/pets", petsRoutes(app));
 app.use("/users", userRoutes(passport, app));
 app.use("/messages", messageRoutes(app))
 

@@ -28,7 +28,13 @@
                         <% if (messages.length > 0 ) {
                             messages.forEach(message => { %>
                                 <tr>
-                                    <td><a title="Status" href="#"><i class="fa fa-star"></i></a></td>
+                                    <td><a title="Status" href="#">
+                                        <% if(message.status === 'unread'){ %>
+                                            <i class="fa fa-envelope"></i>
+                                        <% } else { %>
+                                            <i class="fa fa-envelope-open"></i>
+                                        <% } %>
+                                    </a></td>
                                     <td><a href="/messages/<%= message.id%>"><span><%= moment(message.dateSent, "YYYYMMDD").fromNow()%></span></a></td>
                                     <td><a href="/messages/<%= message.id%>"><span><%= message.senderUsername %></span></a></td>
                                     <td width="75%"><a href="/messages/<%= message.id%>"><span><%= message.subject %></span></a></td>

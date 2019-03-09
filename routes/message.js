@@ -6,6 +6,8 @@ let router = express.Router()
 const messageRouter = (app) => {
     router.get("/", function(req, res){
         Message.find({receiver: app.locals.currentUser.id} ,function(err, messages) {
+            const len = messages.filter(message => message.status === 'unread').length
+            app.locals.unreadMessages = len
             res.render("messages/index", {messages})
         })
 
@@ -34,14 +36,15 @@ const messageRouter = (app) => {
                         console.log(err)
                     } else {
                         user.messages.push(newlyCreated)
-                        user.unreadMessages += 1
                         user.save(function(err){
-                            if(err) {
-                                console.log(err)
-                            } else {
-                                app.locals.unreadMessages = user.unreadMessages
+                            if(err) console.log(err)
+                            Message.find({receiver: userId, status: 'unread'}, function(err, messages){
+                                if(err) console.log(err)
+                                const len = messages.length
+                                console.log("Number of messages:", len)
+                                app.locals.unreadMessages = len
                                 res.redirect("/messages")
-                            }
+                            })
                         })
                     }
                 })
@@ -57,7 +60,11 @@ const messageRouter = (app) => {
                     console.log(err)
                 } else {
                     console.log(message)
-                    res.render("messages/message", {message})
+                    message.status = 'read'
+                    message.save(function(err, message){
+                        if(err) console.log(err)
+                        res.render("messages/message", {message})
+                    })
                 }
             })
         }
