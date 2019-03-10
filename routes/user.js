@@ -51,7 +51,6 @@ module.exports = function(passport, app) {
   router.post("/signin", passport.authenticate("local"), function(req, res) {
     currentUser = req.user;
     app.locals.currentUser = currentUser;
-    app.locals.unreadMessages = currentUser.unreadMessages;
     res.redirect("/pets?user=" + req.user.username);
   });
 

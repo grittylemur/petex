@@ -6,6 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const moment = require("moment");
 const User = require("./models/user");
+const Message = require("./models/message")
 const petsRoutes = require("./routes/pet");
 const userRoutes = require("./routes/user");
 const messageRoutes = require("./routes/message")
@@ -71,6 +72,20 @@ app.use(
     saveUninitialized: false
   })
 );
+
+// Custom middlewares
+const messageMiddleware = function(req, res, next) {
+  if(app.locals.currentUser) {
+    Message.find({receiver: app.locals.currentUser.id, status: 'unread'}, function(err, messages){
+      const len = messages.length
+      console.log("It is working")
+      app.locals.unreadMessages = len
+    })
+  }
+  next()
+}
+
+app.use(messageMiddleware)
 
 app.get("/", function(req, res) {
   // res.render("landing", { currentUser });

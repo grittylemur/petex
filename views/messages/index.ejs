@@ -38,7 +38,7 @@
                                     <td><a href="/messages/<%= message.id%>"><span><%= moment(message.dateSent, "YYYYMMDD").fromNow()%></span></a></td>
                                     <td><a href="/messages/<%= message.id%>"><span><%= message.senderUsername %></span></a></td>
                                     <td width="75%"><a href="/messages/<%= message.id%>"><span><%= message.subject %></span></a></td>
-                                    <td><a title="Delete item" href="#"><i class="fa fa-trash"></i></a> <a title="Mark item" href="javascript:;"><i class="fa fa-flag"></i></a></td>
+                                    <td><a title="Delete item" href="/messages/delete/<%= message.id %>"><i class="fa fa-trash"></i></a> <a title="Mark item" href="javascript:;"><i class="fa fa-flag"></i></a></td>
                                 </tr>
                         <% })} %>
                         
