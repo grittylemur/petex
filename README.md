@@ -2,7 +2,7 @@
 Pet Exchange App
 --
 
-Current Functionalities:
+Current Functionality:
 - Add pet
 - View pets
 - Send message
