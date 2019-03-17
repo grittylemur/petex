@@ -5,8 +5,7 @@
 <% include ./partials/header %>
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Pet Details</h1>
-  </div>
-
+</div>
 
 <div class="container">
 
@@ -20,38 +19,42 @@
                 <h1>Details</h1>
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Kind</h6>
-                </div>
-                <span class="text-muted"><%= pet.kind %></span>
+                    <div>
+                        <h6 class="my-0">Kind</h6>
+                    </div>
+                    <span class="text-muted"><%= pet.kind %></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Breed</h6>
-                </div>
-                <span class="text-muted"><%= pet.breed %></span>
+                    <div>
+                        <h6 class="my-0">Breed</h6>
+                    </div>
+                    <span class="text-muted"><%= pet.breed %></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Sex</h6>
-                </div>
-                <span class="text-muted"><%= pet.sex %></span>
+                    <div>
+                        <h6 class="my-0">Sex</h6>
+                    </div>
+                    <span class="text-muted"><%= pet.sex %></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <span>Age</span>
-                <span class="text-muted"><%= pet.age %> years old</span>
+                    <span>Age</span>
+                    <span class="text-muted"><%= pet.age %> years old</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <span>Size</span>
-                <span class="text-muted"><%= pet.size %></span>
+                    <span>Size</span>
+                    <span class="text-muted"><%= pet.size %></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <span>Location</span>
-                <span class="text-muted"><%= pet.city ? pet.city + ", " + pet.state : pet.state%></span>
+                    <span>Location</span>
+                    <span class="text-muted"><%= pet.city ? pet.city + ", " + pet.state : pet.state%></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <span>Date Added</span>
-                <span class="text-muted"><%= pet.createdAt ? moment(pet.createdAt).fromNow() : "No time availible." %></span>                    
+                    <span>Date Added</span>
+                    <span class="text-muted"><%= pet.createdAt ? moment(pet.createdAt).fromNow() : "No time availible." %></span>                    
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <span>Views</span>
+                    <span class="text-muted"><%= pet.views ? pet.views : 0 %></span>                    
                 </li>
             </ul>
             <h4>Actions</h4>

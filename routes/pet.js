@@ -49,11 +49,14 @@ router.get("/new", isLoggedIn, function(req, res) {
 
 router.post("/", function(req, res) {
   const { kind, breed, description, tags, sex, city, state, size, name, age, image } = req.body;
-  const newPet = { kind, breed, description, tags, sex, city, state, size, name, age, image, createdAt: new Date() };
-  Pet.create(newPet, function(err, newlyCreated) {
+  let newPet = { kind, breed, description, tags, sex, city, state, size, name, age, image, createdAt: new Date() };
+  newPet.owner = app.locals.currentUser._id
+  console.log("New Pet:", newPet)
+  Pet.create(newPet, async function(err, newlyCreated) {
     if (err) {
       console.log(err);
     } else {
+      await app.locals.currentUser.addPet(newlyCreated)
       res.redirect("/pets");
     }
   });
@@ -61,7 +64,8 @@ router.post("/", function(req, res) {
 
 router.get("/:id", function(req, res){
   const id = req.params.id
-  Pet.findOne({_id : id}, function(err, pet){
+  Pet.findOne({_id : id}, async function(err, pet){
+    await pet.incrementViews()
     Comment.find({
       "_id": { $in: pet.comments }
     }, function(err, comments){

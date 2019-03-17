@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose")
+const Schema = mongoose.Schema
 
 const PetSchema = new mongoose.Schema({
   kind: String,
@@ -16,12 +17,25 @@ const PetSchema = new mongoose.Schema({
   createdAt: Date,
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment"
+      type: Schema.Types.ObjectId,
+      ref: "comment"
     }
-  ]
+  ],
+  views: {
+    type: Number,
+    default: 0
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  }
 });
 
 PetSchema.plugin(passportLocalMongoose)
+
+PetSchema.methods.incrementViews = async function() {
+  this.views += 1
+  await this.save()
+}
 
 module.exports = mongoose.model("Pet", PetSchema);
