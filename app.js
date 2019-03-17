@@ -10,6 +10,9 @@ const Message = require("./models/message")
 const petsRoutes = require("./routes/pet");
 const userRoutes = require("./routes/user");
 const messageRoutes = require("./routes/message")
+const dashboardRoutes = require("./routes/dashboard")
+const profileRoutes = require("./routes/profile")
+const settingsRoutes = require("./routes/settings")
 const logger = require("./utils/logger");
 require("dotenv").config();
 const chalk = require("chalk");
@@ -78,7 +81,6 @@ const messageMiddleware = function(req, res, next) {
   if(app.locals.currentUser) {
     Message.find({receiver: app.locals.currentUser.id, status: 'unread'}, function(err, messages){
       const len = messages.length
-      console.log("It is working")
       app.locals.unreadMessages = len
     })
   }
@@ -96,6 +98,9 @@ app.get("/", function(req, res) {
 app.use("/pets", petsRoutes(app));
 app.use("/users", userRoutes(passport, app));
 app.use("/messages", messageRoutes(app))
+app.use("/dashboard", dashboardRoutes(app))
+app.use("/profile", profileRoutes(app))
+app.use("/settings", settingsRoutes(app))
 
 app.listen(PORT, process.env.IP, function() {
   console.log(`Node server has started at http://localhost:${PORT}`);

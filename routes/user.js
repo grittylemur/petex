@@ -14,7 +14,6 @@ module.exports = function(passport, app) {
   });
 
   router.post("/", function(req, res) {
-    console.log(req.body);
     const {
       username,
       password,

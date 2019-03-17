@@ -8,7 +8,6 @@ const isLoggedIn = require("../auth/isLoggedIn")
 
 const petsRouter = (app) => {
 router.get("/", function(req, res) {
-  logger.info(req.user);
 
   let searchOptions = {};
 
@@ -89,7 +88,6 @@ router.post("/:id/comments", isLoggedIn, function(req, res) {
         function(err, comment) {
           pet.comments.push(comment);
           pet.save();
-          console.log("comment has been saved");
           res.redirect("/pets/" + pet._id + "#comments");
         }
       );

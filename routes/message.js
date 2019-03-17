@@ -8,6 +8,7 @@ const messageRouter = (app) => {
         Message.find({receiver: app.locals.currentUser.id} ,function(err, messages) {
             res.render("messages/index", {messages})
         })
+        .sort({status: 'descending', dateSent: 'descending'})
     })
 
     router.get("/new", function(req, res){
@@ -21,6 +22,7 @@ const messageRouter = (app) => {
                 const userId = user._id
                 console.log(user)
                 const newMessage = {
+                    dateSent: new Date(),
                     sender: app.locals.currentUser.id,
                     senderUsername: app.locals.currentUser.username,
                     receiver: userId,
@@ -28,6 +30,7 @@ const messageRouter = (app) => {
                     subject,
                     body
                 }
+                console.log(newMessage)
                 Message.create(newMessage, function(err, newlyCreated){
                     if(err) {
                         console.log(err)
