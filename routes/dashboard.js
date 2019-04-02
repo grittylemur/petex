@@ -3,11 +3,9 @@ const Pet = require("../models/pet")
 let router = express.Router()
 
 const dashboardRouter = (app) => {
-    router.get("/", function(req, res){
-        Pet.find({owner: app.locals.currentUser.id} ,function(err, pets) {
-            res.render("dashboard/index", {pets})
-        })
-        
+    router.get("/", async function(req, res){
+        let pets = await app.locals.currentUser.getPets()
+        res.render("dashboard/index", {pets})
     })
 
     router.get("/:id/delete", function(req, res){

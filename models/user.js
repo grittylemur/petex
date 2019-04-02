@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose")
 const Schema = mongoose.Schema
+const Pet = require("./pet")
 
 const UserSchema = new mongoose.Schema({
   username: String,
@@ -28,6 +29,10 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.addPet = async function(pet) {
   this.pets.push(pet)
   await this.save()
+}
+
+UserSchema.methods.getPets = async function() {
+  return Pet.find({owner: this.id})
 }
 
 UserSchema.plugin(passportLocalMongoose)
