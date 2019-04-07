@@ -15,6 +15,16 @@ const dashboardRouter = (app) => {
             res.redirect("/dashboard")
         })
     })
+
+    router.get("/:id/edit", function(req, res){
+        const id = req.params.id
+        Pet.findById(id, function(err, pet){
+            if(err) console.log(err)
+            console.log(pet)
+            res.render("dashboard/edit", {pet})
+        })
+    })
+
     return router
 }
 

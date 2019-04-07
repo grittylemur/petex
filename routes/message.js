@@ -53,7 +53,6 @@ const messageRouter = (app) => {
                 if(err) {
                     console.log(err)
                 } else {
-                    console.log(message)
                     message.status = 'read'
                     message.save(function(err, message){
                         if(err) console.log(err)
@@ -96,7 +95,7 @@ const messageRouter = (app) => {
                             }
                         })
                     }
-                }) 
+                })
         }
         
     })

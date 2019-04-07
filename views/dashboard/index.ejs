@@ -25,12 +25,13 @@
                     <tbody class="hidden-xs">
                         <% 
                         pets.forEach(function(pet){ %>
-                            <tr>
+                            <tr>    
                                 <td class="align-middle"><a href="/pets/<%=pet.id%>"><img src="<%=pet.image%>" height="100" width="100"></a></td>
                                 <td class="align-middle" width="15%"><a href="/pets/<%=pet.id%>"><%=pet.name%></a></td>
                                 <td class="align-middle"><a href="/pets/<%=pet.id%>"><%=moment(pet.createdAt, "YYYYMMDD").fromNow()%></a></td>
                                 <td class="align-middle"><a href="/pets/<%=pet.id%>"><%=pet.views%></a></td>
                                 <td class="align-middle"><a href="dashboard/<%= pet.id %>/delete/"> <i style="font-size: 20px;"class="fas fa-trash"></i></a></td>
+                                <td class="align-middle"><a href="dashboard/<%= pet.id %>/edit/"> <i style="font-size: 20px;"class="fas fa-edit"></i></a></td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -39,5 +40,6 @@
         </div>
     </div>
 </div>
+
 
 <% include ../partials/footer %>
