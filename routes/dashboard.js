@@ -25,6 +25,16 @@ const dashboardRouter = (app) => {
         })
     })
 
+    router.post("/:id/edit", function(req, res){
+        const id = req.params.id
+        const { kind, breed, description, tags, sex, city, state, size, name, age, image } = req.body;
+        const query = {_id: id}
+        Pet.findOneAndUpdate(query, { kind, breed, description, tags, sex, city, state, size, name, age, image }, function(err, pet){
+            if(err) console.log(err)
+            res.redirect("/dashboard")
+        })
+    })
+
     return router
 }
 
