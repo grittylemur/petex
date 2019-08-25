@@ -23,7 +23,13 @@ const UserSchema = new mongoose.Schema({
   pets: [{
     type: Schema.Types.ObjectId,
     ref: 'Pet'
-  }]
+  }],
+  savedPets: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Pet'
+    }
+  ]
 })
 
 UserSchema.methods.addPet = async function(pet) {
@@ -34,6 +40,10 @@ UserSchema.methods.addPet = async function(pet) {
 UserSchema.methods.getPets = async function() {
   return Pet.find({owner: this.id})
 }
+
+// UserSchema.methods.getSavedPets = async function() {
+//   return 
+// }
 
 UserSchema.plugin(passportLocalMongoose)
 

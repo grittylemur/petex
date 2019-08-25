@@ -2,6 +2,7 @@ const express = require("express");
 var router = express.Router();
 const Pet = require("../models/pet")
 const Comment = require("../models/comment")
+const User = require("../models/user")
 const Message = require("../models/message")
 const logger = require("../utils/logger")
 const isLoggedIn = require("../auth/isLoggedIn")
@@ -98,6 +99,20 @@ router.post("/:id/comments", isLoggedIn, function(req, res) {
     }
   });
 });
+
+router.get("/:id/saveforlater", function(req, res){
+  const petId = req.params.id
+  const userId = app.locals.currentUser._id
+  User.findById(userId, function(err, user){
+    if(err) {console.log(err)} else {
+      user.savedPets.push(petId)
+      user.save(function(err, savedUser){
+        if(err) return console.error(err)
+        res.redirect("/pets/" + petId)
+      })
+    }
+  })
+})
 
 return router
 }
