@@ -41,9 +41,11 @@ UserSchema.methods.getPets = async function() {
   return Pet.find({owner: this.id})
 }
 
-// UserSchema.methods.getSavedPets = async function() {
-//   return 
-// }
+UserSchema.methods.getSavedPets = async function() {
+  return Pet.find({_id: { $in: this.savedPets }})
+}
+
+
 
 UserSchema.plugin(passportLocalMongoose)
 

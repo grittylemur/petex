@@ -5,8 +5,8 @@ let router = express.Router()
 const dashboardRouter = (app) => {
     router.get("/", async function(req, res){
         let pets = await app.locals.currentUser.getPets()
-        
-        res.render("dashboard/index", {pets})
+        let savedPets = await app.locals.currentUser.getSavedPets()
+        res.render("dashboard/index", {pets, savedPets})
     })
 
     router.get("/:id/delete", function(req, res){

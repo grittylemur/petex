@@ -25,7 +25,7 @@
                         </thead>
                             <tbody class="hidden-xs">
                                 <% 
-                                pets.forEach(function(pet){ %>
+                                savedPets.forEach(function(pet){ %>
                                     <tr>    
                                         <td class="align-middle"><a href="/pets/<%=pet.id%>"><img src="<%=pet.image%>" height="100" width="100"></a></td>
                                         <td class="align-middle" width="15%"><a href="/pets/<%=pet.id%>"><%=pet.name%></a></td>
