@@ -31,7 +31,7 @@
                                         <td class="align-middle" width="15%"><a href="/pets/<%=pet.id%>"><%=pet.name%></a></td>
                                         <td class="align-middle"><a href="/pets/<%=pet.id%>"><%=moment(pet.createdAt, "YYYYMMDD").fromNow()%></a></td>
                                         <td class="align-middle"><a href="/pets/<%=pet.id%>"><%=pet.views%></a></td>
-                                        <td class="align-middle"><a onClick='setPetId("<%=pet.id%>")' href="dashboard/<%= pet.id %>/delete/" data-toggle="modal" data-target="#exampleModal"> <i style="font-size: 20px;"class="fas fa-trash"></i></a></td>
+                                        <td class="align-middle"><a onClick='setPetId("<%=pet.id%>")' href="dashboard/<%= pet.id %>/deleteSaved/" data-toggle="modal" data-target="#exampleModal"> <i style="font-size: 20px;"class="fas fa-trash"></i></a></td>
                                         <td class="align-middle"><a href="dashboard/<%= pet.id %>/edit/"> <i style="font-size: 20px;"class="fas fa-edit"></i></a></td>
                                     </tr>
                                 <% }) %>

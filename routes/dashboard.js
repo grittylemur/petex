@@ -6,12 +6,21 @@ const dashboardRouter = (app) => {
     router.get("/", async function(req, res){
         let pets = await app.locals.currentUser.getPets()
         let savedPets = await app.locals.currentUser.getSavedPets()
+        console.log("Saved Pets:", savedPets)
         res.render("dashboard/index", {pets, savedPets})
     })
 
     router.get("/:id/delete", function(req, res){
         const id = req.params.id
         Pet.remove({_id: id}, function(err){
+            if(err) console.log(err)
+            res.redirect("/dashboard")
+        })
+    })
+
+    router.get("/:id/deletesaved", function(req, res){
+        const petId = req.params.id
+        User.deleteSavedPet(petId, function(err){
             if(err) console.log(err)
             res.redirect("/dashboard")
         })

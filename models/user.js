@@ -45,6 +45,14 @@ UserSchema.methods.getSavedPets = async function() {
   return Pet.find({_id: { $in: this.savedPets }})
 }
 
+UserSchema.methods.deleteSavedPet = async function(petId) {
+  for(var i = 0; i < this.savedPets.length; i++) {
+    if(this.savedPets[i] === petId) {
+      this.savedPets.splice(i, 1)
+    }
+  }
+}
+
 
 
 UserSchema.plugin(passportLocalMongoose)

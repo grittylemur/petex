@@ -3,6 +3,15 @@
 
 
 <% include ./partials/header %>
+<% if(query.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> Success! %></strong> <i><%= pet.name %></i> has been saved to your collection!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Pet Details</h1>
 </div>

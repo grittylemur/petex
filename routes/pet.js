@@ -105,11 +105,18 @@ router.get("/:id/saveforlater", function(req, res){
   const userId = app.locals.currentUser._id
   User.findById(userId, function(err, user){
     if(err) {console.log(err)} else {
-      user.savedPets.push(petId)
-      user.save(function(err, savedUser){
-        if(err) return console.error(err)
-        res.redirect("/pets/" + petId)
-      })
+      if(!(user.savedPets.indexOf(petId) > -1)) {
+        console.log("Pet id:", petId)
+        console.log("User savedPets:", user.savedPets)
+        user.savedPets.push(petId)
+        user.save(function(err, savedUser){
+          if(err) return console.error(err)
+          res.redirect("/pets/" + petId)
+        })
+      } else {
+        console.log("I'm already saved!", petId)
+        res.redirect("/pets/" + petId + "?success=true")
+      }
     }
   })
 })

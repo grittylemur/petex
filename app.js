@@ -75,6 +75,12 @@ app.use(
     saveUninitialized: false
   })
 );
+// Passing query for EJS
+app.use(function(req, res, next) {
+  res.locals.query = req.query;
+  res.locals.url   = req.originalUrl;
+  next();
+});
 
 // Custom middlewares
 const messageMiddleware = function(req, res, next) {
