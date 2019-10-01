@@ -82,7 +82,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Custom middlewares
+// Custom middleware
 const messageMiddleware = function(req, res, next) {
   if(app.locals.currentUser) {
     Message.find({receiver: app.locals.currentUser.id, status: 'unread'}, function(err, messages){
