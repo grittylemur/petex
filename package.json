@@ -28,7 +28,7 @@
     "chalk": "^2.4.2",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "moment": "^2.23.0",
     "mongoose": "^5.4.0",
